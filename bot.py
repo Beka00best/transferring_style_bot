@@ -11,7 +11,7 @@ bot = telebot.TeleBot(config.TOKEN)
 
 @bot.message_handler(commands=['start'])
 def welcome(message):
-    sti = open('/home/bekzat/Beka/transferring_style_bot/welcome.webp', 'rb')
+    sti = open('welcome.webp', 'rb')
     bot.send_sticker(message.chat.id, sti)
 
     bot.send_message(message.chat.id,
