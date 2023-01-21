@@ -3,7 +3,8 @@ import os
 import telebot
 import config
 from telebot import types
-from telebot import apihelper
+
+from transfer import nst_model
 
 bot = telebot.TeleBot(config.TOKEN)
 
@@ -30,34 +31,37 @@ def welcome(message):
 def callback_worker(call):
     if call.data == 'start':
         bot.send_message(call.message.chat.id, 'Загрузи первую картинку')
+        bot.register_next_step_handler(call.message, handle_photo_content)
     elif call.data == 'look':
-        bot.send_photo(call.message.chat.id, photo=open("example_content_img.jpg", 'rb'))
-        bot.send_message(call.message.chat.id, 'content')
-        bot.send_photo(call.message.chat.id, photo=open("example_style_img.jpg", 'rb'))
-        bot.send_message(call.message.chat.id, 'style')
-        bot.send_photo(call.message.chat.id, photo=open("example_output_img.jpg", 'rb'))
-        bot.send_message(call.message.chat.id, 'output')
-
-
-@bot.message_handler(commands=['example'])
-def handle_photo(message):
-    file_info = bot.get_file(message.photo[-1].file_id)
-    downloaded_file = bot.download_file(file_info.file_path)
-    src = os.getcwd() + '/content_input.jpg'
-    bot.send_message(message.chat.id, src)
-    with open(src, 'wb') as new_file:
-        new_file.write(downloaded_file)
-    bot.send_photo(message.chat.id, photo=open(src, 'rb'))
+        bot.send_message(call.message.chat.id, 'Бот просит \'Загрузи первую картинку\'. Мы загружаем картинку, на которую мы хотим нанести новый стиль')
+        bot.send_photo(call.message.chat.id, photo=open("media/example_content_img.jpg", 'rb'))
+        bot.send_message(call.message.chat.id, 'Далее бот просит \'Загрузи стилевую картинку\'. Мы загружаем вторую картинку уже со стилем')
+        bot.send_photo(call.message.chat.id, photo=open("media/example_style_img.jpg", 'rb'))
+        bot.send_message(call.message.chat.id, 'После некоторого ожидания бот нам выводит картинку с перенесенным стилем')
+        bot.send_photo(call.message.chat.id, photo=open("media/example_output_img.jpg", 'rb'))
+        bot.send_message(call.message.chat.id, 'Усё')
 
 
 @bot.message_handler(content_types=['photo'])
-def handle_photo(message):
+def handle_photo_content(message):
     file_info = bot.get_file(message.photo[-1].file_id)
     downloaded_file = bot.download_file(file_info.file_path)
-    src = os.getcwd() + '/content_input.jpg'
-    bot.send_message(message.chat.id, src)
+    src = os.path.join(os.getcwd(), 'media', 'content_input.jpg')
     with open(src, 'wb') as new_file:
         new_file.write(downloaded_file)
+    bot.send_message(message.chat.id, "Загрузи стилевую картинку")
+    bot.register_next_step_handler(message, handle_photo_style)
+
+
+def handle_photo_style(message):
+    file_info = bot.get_file(message.photo[-1].file_id)
+    downloaded_file = bot.download_file(file_info.file_path)
+    src = os.path.join(os.getcwd(), 'media', 'style_input.jpg')
+    with open(src, 'wb') as new_file:
+        new_file.write(downloaded_file)
+    bot.send_message(message.chat.id, "Процесс начат...")
+    nst_model()
+    src = os.path.join(os.getcwd(), 'media', 'output_image.jpg')
     bot.send_photo(message.chat.id, photo=open(src, 'rb'))
 
 
