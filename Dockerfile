@@ -5,6 +5,7 @@ COPY requirements.txt .
 RUN pip install --user -r requirements.txt
 
 COPY media /media
+COPY train_gan /train_gan
 COPY welcome.webp /
 COPY bot.py /
 COPY config.py /
