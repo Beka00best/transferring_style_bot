@@ -1,6 +1,5 @@
 # Style Transfer Service
-
-![Image alt](https://github.com/Beka00best/transferring_style_bot/static/blob/main/neuralstyle.jpeg)
+![Image alt](https://github.com/Beka00best/transferring_style_bot/static/blob/main/neuralstyle.jpg)
 
 This project is to transfer the style of one image to another image.
 
