@@ -10,5 +10,6 @@ COPY welcome.webp /
 COPY bot.py /
 COPY config.py /
 COPY transfer.py /
+COPY transfer_gan.py /
 
 CMD ["python3", "bot.py"]
