@@ -16,7 +16,6 @@ A fast algorithm using the Msg-Net neural network described in <a href="https://
 2. [Build a ready-made GAN](#Build-a-ready-made-GAN) :white_check_mark: 
 3. [Train and embed your own GAN](#Train-and-embed-your-own-GAN) :white_check_mark: 
 4. [Docker](#Docker) :white_check_mark: 
-6. [Tests](#Tests) :white_check_mark: 
 
 ## Download
 Install the dependencies
