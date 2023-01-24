@@ -1,6 +1,6 @@
 # Style Transfer Service
 
-![Image alt](https://github.com/Beka00best/transferring_style_bot/static/blob/main/neuralstyle.png)
+![Image alt](https://github.com/Beka00best/transferring_style_bot/static/blob/main/neuralstyle.jpeg)
 
 This project is to transfer the style of one image to another image.
 
@@ -63,11 +63,11 @@ You will be taken to this page:
 
 Then follow the instructions. Press "See an example":
 
-![Image alt](https://github.com/Beka00best/transferring_style_bot/blob/main/static/2.jpeg)
+![Image alt](https://github.com/Beka00best/transferring_style_bot/blob/main/static/3.jpeg)
 
 Then press another buttons, and follow the instructions:
 
-![Image alt](https://github.com/Beka00best/transferring_style_bot/blob/main/static/3.jpeg)
+![Image alt](https://github.com/Beka00best/transferring_style_bot/blob/main/static/2.jpeg)
 
 ![Image alt](https://github.com/Beka00best/transferring_style_bot/blob/main/static/4.jpeg)
 
