@@ -60,6 +60,20 @@ def gram_matrix(y):
     return gram
 
 
+def tensor_save_bgrimage(tensor, filename, cuda=False):
+    (b, g, r) = torch.chunk(tensor, 3)
+    tensor = torch.cat((r, g, b))
+    tensor_save_rgbimage(tensor, filename, cuda, need_unnormalize=False)
+
+
+def preprocess_batch(batch):
+    batch = batch.transpose(0, 1)
+    (r, g, b) = torch.chunk(batch, 3)
+    batch = torch.cat((b, g, r))
+    batch = batch.transpose(0, 1)
+    return batch
+
+
 class StyleLoader():
     def __init__(self, style_folder, style_size, cuda=True):
         self.folder = style_folder

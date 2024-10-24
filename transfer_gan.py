@@ -4,7 +4,7 @@ import train_gan.net as net
 import train_gan.utils as utils
 
 
-def create_net():
+def create_net_v1():
     msg_net = net.Net()
     msg_net_checkpoint = os.path.join('train_gan', 'msgnet_main.pth')
     if os.path.exists(msg_net_checkpoint):
@@ -13,7 +13,7 @@ def create_net():
     return msg_net
 
 
-def msg_net_processing(msg_net, style, content, image):
+def msg_net_v1_processing(msg_net, style, content, image):
     with torch.no_grad():
         if type(content) is str:
             content = utils.tensor_load_rgbimage(content, 256, keep_asp=True)

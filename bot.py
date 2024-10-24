@@ -5,10 +5,11 @@ import config
 from telebot import types
 
 from transfer import nst_model
-from transfer_gan import create_net, msg_net_processing
-
+from transfer_gan import create_net_v1, msg_net_v1_processing
+from transfer_msgnet import create_net_v2, msg_net_v2_processing
 bot = telebot.TeleBot(config.TOKEN)
-msg_net = create_net()
+msg_net_v1 = create_net_v1()
+msg_net_v2 = create_net_v2()
 
 src_output = os.path.join(os.getcwd(), 'media', 'output_image.jpg')
 src_style = os.path.join(os.getcwd(), 'media', 'style_input.jpg')
@@ -30,17 +31,18 @@ def welcome(message):
 def choice(message):
     moon = types.InlineKeyboardMarkup(row_width=1)
     man1 = types.InlineKeyboardButton('Getting started with the first nst model', callback_data='start1')
-    man2 = types.InlineKeyboardButton('Getting started with the second msg_net model', callback_data='start2')
+    man2 = types.InlineKeyboardButton('Getting started with the second msg_net_v1 model', callback_data='start2')
+    man4 = types.InlineKeyboardButton('Getting started with the second msg_net_v2 model', callback_data='start3')
     man3 = types.InlineKeyboardButton('See an example', callback_data='look')
 
-    moon.add(man1, man2, man3)
+    moon.add(man1, man2, man4, man3)
 
     bot.send_message(message.chat.id, 'You can see an example, or get started', reply_markup=moon)
 
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_worker(call):
-    if call.data == 'start1' or call.data == 'start2':
+    if call.data == 'start1' or call.data == 'start2' or call.data == 'start3':
         bot.send_message(call.message.chat.id, 'Upload the first picture')
         bot.register_next_step_handler(call.message, handle_photo_content, call.data)
     elif call.data == 'look':
@@ -76,7 +78,10 @@ def handle_photo_style(message, command):
         nst_model()
         bot.send_photo(message.chat.id, photo=open(src_output, 'rb'))
     if command == 'start2':
-        msg_net_processing(msg_net=msg_net, content=src_input, style=src_style, image=src_output)
+        msg_net_v1_processing(msg_net=msg_net_v1, content=src_input, style=src_style, image=src_output)
+        bot.send_photo(message.chat.id, photo=open(src_output, 'rb'))
+    if command == 'start3':
+        msg_net_v2_processing(style_model=msg_net_v2, content=src_input, style=src_style, image=src_output)
         bot.send_photo(message.chat.id, photo=open(src_output, 'rb'))
     choice(message)
 
